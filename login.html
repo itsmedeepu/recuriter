@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User-Login</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/toast/toastify.min.css" />
+
+    <script type="text/javascript" src="assets/toast/toastify-js.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.js"></script>
+
+    <style>
+      #refresh:hover {
+        cursor: pointer;
+      }
+      label {
+        font-weight: bolder;
+      }
+      input {
+        border-radius: 50px;
+      }
+      body {
+        background: linear-gradient(135deg, #70f570, #07f7f7);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container main-container">
+      <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-12 m-auto">
+          <div class="card shadow">
+            <div class="header">
+              <h2 class="text-center header-text">Login Page</h2>
+            </div>
+            <div class="card-body col-lg-8">
+              <form id="loginform">
+                <div class="form-group">
+                  <label for="inputAddress" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter Email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress" class="form-label">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="pass"
+                    name="pass"
+                    placeholder="Enter Password"
+                    required
+                  />
+                </div>
+                <div class="form-group mt-2 mb-2">
+                  <img
+                    id="captcha_img"
+                    src="assets/captcha/captcha.php"
+                  />&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    ><img
+                      id="refresh"
+                      src="assets/images/re.png"
+                      width="30px"
+                      height="30px"
+                  /></span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Captcha</label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="captcha"
+                    id="captcha"
+                    placeholder="Enter Captcha"
+                    required
+                  />
+                </div>
+                <div class="col-12 mt-3">
+                  <button type="submit" id="login" class="btn btn-primary">
+                    Login
+                  </button>
+
+                  <button
+                    type="reset"
+                    style="float: right"
+                    class="btn btn-primary"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#login").click(function () {
+          var email = $("#email").val();
+          var pass = $("#pass").val();
+          var captcha = $("#captcha").val();
+          if (email == "") {
+            alert("Please Enter Email");
+            $("#email").focus();
+            return false;
+          }
+          if (pass == "") {
+            alert("Please Enter Password");
+            $("#pass").focus();
+            return false;
+          }
+          if (captcha == "") {
+            alert("Please Enter captcha");
+            $("#captcha").focus();
+            return false;
+          }
+        });
+
+        /** code for refresh captcha**/
+
+        $("#refresh").click(function () {
+          $("#captcha_img").attr("src", "assets/captcha/captcha.php");
+          return false;
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        //last modified by deepak s do not edit this
+
+        $("#loginform").on("submit", function (event) {
+          event.preventDefault();
+
+          var data = $("#loginform").serialize();
+
+          //console.log(data);
+          $.ajax({
+            url: "validation1.php",
+            type: "POST",
+            data: data,
+            success: function (response) {
+              //alert(data);
+
+              if (response == 1) {
+                Toastify({
+                  text: "Enter Correct Captcha Code",
+                  duration: 4000,
+                  gravity: "top",
+                  close: true,
+                  position: "right",
+                  stopOnFocus: true,
+                  style: {
+                    background: "linear-gradient(to right, #df1b1b, #df1b1b)",
+                  },
+                }).showToast();
+                //alert("Enter Correct Captcha");
+              } else if (response == 2) {
+                Toastify({
+                  text: "Invalid Login Details",
+                  duration: 4000,
+                  gravity: "top",
+                  close: true,
+                  position: "right",
+                  stopOnFocus: true,
+                  style: {
+                    background: "linear-gradient(to right, #FE7C22, #96c93d)",
+                  },
+                }).showToast();
+              } else {
+                Toastify({
+                  text: "Login Success",
+                  duration: 4000,
+                  gravity: "top",
+                  close: true,
+                  position: "right",
+                  stopOnFocus: true,
+                  style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                  },
+                }).showToast();
+              }
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

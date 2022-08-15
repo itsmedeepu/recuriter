@@ -1,0 +1,26 @@
+/***custom style**/
+* {
+    margin: 0;
+    padding: 0:0%
+}
+
+.form-group {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.captcha:hover {
+    cursor: pointer;
+
+}
+
+.btn {
+    border-radius: 20px;
+
+}
+
+/**faculty dashboard styling**/
+
+#fh {
+    font-size: 30px;
+}
